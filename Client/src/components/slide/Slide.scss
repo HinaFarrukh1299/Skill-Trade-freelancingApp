@@ -1,0 +1,22 @@
+.slide{
+    display:flex;
+    justify-content: center;
+    padding: 100px,0px;
+    background-color:blanchedalmond;
+    .container{
+        width:1400px;
+
+        .carousel-prev,.carousel-next{
+            width: 50px;
+            height: 50px;
+            background-color:rgb(140, 196, 140,0.5);
+            color:azure;
+            border-radius: 50%;
+            position: absolute;
+            top:0;
+            bootom:0;
+            margin:auto;
+        }
+
+    }
+}

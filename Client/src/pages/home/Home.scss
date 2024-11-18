@@ -1,0 +1,104 @@
+.home{
+    
+
+    .features{
+        background-color: rgb(248, 247, 246);
+        display:flex;
+        justify-content:center;
+        align-items: center;
+        padding:100px,0px;
+
+        &.dark{
+           
+            background-color:rgb(80, 94, 150);
+            gap:10px;
+            h1{
+                padding-left: 10px !important;
+                color: floralwhite!important;
+            }
+          p{
+            padding-left: 15px;
+            color:floralwhite !important;
+            margin-bottom: 20px !important;
+          }
+          .title{
+            padding-left: 15px;
+            color:floralwhite !important;
+            font-weight: 300px !important;
+            font-size: medium !important;
+          }
+          img{
+            width:100%;
+          }
+                button{
+                    background-color: mediumseagreen;
+                    color:floralwhite;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    margin-left: 20px;
+                    margin-top: 20px;
+                    border:none;
+                    width:max-content;
+
+
+                }
+            .item{
+                img{
+                    background-color:rgb(30, 91, 204);
+                }
+            }
+        }
+        
+        .container{
+            width:auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap:15px;
+            .item{
+                display:flex;
+                flex-direction: column;
+                gap:30pxpx;
+                &:first-child{
+                    flex:2;
+                }
+                &:last-child{
+                    flex:3;
+                    background-color: gray;
+                }
+                h1{
+                    font-weight: 500;
+                    margin-bottom: 10px;
+    
+                }
+                p{
+                    font-size: small;
+                    font-weight:150px;
+                    color: rgb(48, 52, 56);
+                    line-height: 28px;
+                    letter-spacing: 0.5px;
+    
+                }
+                .title{
+                    display: flex;
+                    align-items: center;
+                    gap:10px;
+                    font-weight: 500;
+                    font-size: medium;
+                    color:grey;
+                    img{
+                        width:20px;
+                        height:20px;
+                    }
+    
+                }
+                video{
+                    width:100%;
+                  
+                }
+            }
+        }
+    }
+}
