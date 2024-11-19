@@ -130,7 +130,7 @@ function Navbar() {
 
 export default Navbar; */
 import React, { useEffect, useState } from 'react' ;
-import "./Navbar.scss" ;
+import "./NavBar.scss" ;
 import {Link, useNavigate} from 'react-router-dom';
 import { useLocation } from 'react-router-dom'; // Add useLocation import
 import newRequest from '../../utils/newRequest';
