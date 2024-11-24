@@ -228,6 +228,10 @@ app.listen(8105, () => {
   connect();
   console.log("Backend server is running on port 8105!");
 });
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', uptime: process.uptime(), timestamp: new Date() });
+});
+
 
 /*import express from "express";
 import mongoose from "mongoose";
