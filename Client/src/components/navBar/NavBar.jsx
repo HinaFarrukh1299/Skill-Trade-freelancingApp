@@ -168,47 +168,57 @@ const NavBar = ()=> {
 
     return (
 
-    <div className={active || pathname !=='/' ? "navBar active":"navBar"}>
-         <div className='container'>
-            <div className='logo'>
-                <Link to='/' className='link'>
-                <span className='text'>Skill-Trade
-                
-                <span className='dot'>.</span>
-                </span>
-                </Link>
-            </div>
-            <div className='links'>
-                <span>Skill-Trade business</span>
-                <span>Explore</span>
-                <span>English</span>
-                
-                {!currentUser?.isSeller && <span>Become a seller</span>}
-               {!currentUser && <button> join in </button>}
-               {currentUser && (
-
-                 <div className='user' onClick={()=>setOpen(!open)}>
-                    <img src={currentUser.img || "noavatar.png"} alt='' />
-                    <span>{currentUser?.username}</span>
-                    {open&&<div className="options">
-                        {
-                            currentUser?.isSeller && (
-                                <>
-                                <Link to='myGigs'>Gigs</Link>
-                                <Link to='add'>Add New Gig</Link>
-                                </>
-                            )
-                        }
-                        <Link to='orders' className='link'>Orders</Link>
-                        <Link to='messages' className='link'>Messages</Link>
-                        <Link  className='link' onClick={handleLogout}>Logout</Link>
-                        
-                    </div>}
-                 </div>
-
-               )}
-            </div>
+      <div className={active || pathname !== "/" ? "navBar active" : "navBar"}>
+      <div className="container">
+        <div className="logo">
+          <Link className="link" to="/">
+            <span className="text">Skill-Trade .</span>
+          </Link>
+          
         </div>
+        <div className="links">
+          <span>Skill-Trade Business</span>
+          <span>Explore</span>
+          <span>English</span>
+          {!currentUser?.isSeller && <span><Link to="/login">Become a Seller</Link></span>}
+          {currentUser ? (
+            <div className="user" onClick={() => setOpen(!open)}>
+              <img src={currentUser.img || "/img/noavatar.jpg"} alt="" />
+              <span>{currentUser?.username}</span>
+              {open && (
+                <div className="options">
+                  {currentUser.isSeller && (
+                    <>
+                      <Link className="link" to="/myGigs">
+                        Gigs
+                      </Link>
+                      <Link className="link" to="/add">
+                        Add New Gig
+                      </Link>
+                    </>
+                  )}
+                  <Link className="link" to="/orders">
+                    Orders
+                  </Link>
+                  <Link className="link" to="/messages">
+                    Messages
+                  </Link>
+                  <Link className="link" onClick={handleLogout}>
+                    Logout
+                  </Link>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link to="/login" className="link">Sign in</Link>
+              <Link className="link" to="/register">
+                <button>Join</button>
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
 
         {(active || pathname !=='/') && (
         <>

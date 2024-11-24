@@ -13,6 +13,7 @@ import Messages from './pages/messages/Messages';
 import Message from './pages/message/Message';
 import Orders from './pages/orders/Orders';
 import Login from './pages/login/Login';
+import HealthCheck from './components/status/Status';
 import Register from './pages/register/Register'; // Import Register component
 import {
   createBrowserRouter,
@@ -24,6 +25,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from '@tanstack/react-query';
+//import { useQuery } from '@tanstack/react-query';
 
 
 function App() {
@@ -51,7 +53,11 @@ function App() {
           element: <Home />
         },
         {
-          path: '/myGigs',
+          path: '/status',
+          element:<HealthCheck />
+        },
+        {
+          path: '/gigs',
           element: <Gigs />
         },
         {

@@ -1,15 +1,36 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Gigs.scss";//have to get rid of Gigs page in pages
 //import {MyGigs} from "../../data";
 //import MyGigs from "../../components/myGigs/MyGigs"
 import GigCard from "../../components/gigCard/GigCard";
 // Assuming you need to import it from your data
-import { gigs } from "../../data";  // Uncomment or add this line
+//import { gigs } from "../../data";  // Uncomment or add this line
+import newRequest from "../../utils/newRequest";
+import { useLocation } from "react-router-dom";
+import { gigs } from "../../data";
+import { useQuery } from '@tanstack/react-query';
+
 
 
 const Gigs = () => {
+
     const[sort,setSort] = useState("sales");
     const[open,setOpen] = useState(false);
+    const minRef = useRef();
+    const maxRef = useRef();
+
+    const {search} = useLocation();
+    console.log(location);
+
+    const { isLoading, error, data } = useQuery({
+        queryKey: ['repodata'],
+        queryFn: () =>
+          newRequest.get(`/gigs`).then(res=>{
+            return res.data ;
+          }),
+          
+        });
+        console.log(data);
 
     //Function RE-Sort
     const reSort =(type) => {
@@ -26,7 +47,7 @@ const Gigs = () => {
         <div className="container">
             
                 <div className="breadcrumbs">
-                    Skill-Trade > Graphics And Design >
+                    Skill-Trade  Graphics And Design 
                     <h1>AI Artists</h1>
                     <p>Explore the bounderies of Art And Technology with Skill-Trade's AI Artists</p>
 
@@ -53,29 +74,19 @@ const Gigs = () => {
                     </div>
                     <div className="cards">
 
-                                {gigs.map(gig=>
-                                    (
-                                        <GigCard key={gig.id} item={gig}/>
-                                    )
-
-                                    
-                                )}
-
-                    </div>
+                    {isLoading
+            ? "loading"
+            : error
+            ? "Something went wrong!"
+            : data.map((gig) => <GigCard key={gig._id} item={gig} />)}
                 </div>
                 </div> 
                 </div>
+                </div>
 
                 
-    
-    )
-}
+   ); 
+    }
 
 export default Gigs ;
 
-/*const MyGigs = () => {
-    return(
-        <></>
-    )
-}
-export default MyGigs;*/
