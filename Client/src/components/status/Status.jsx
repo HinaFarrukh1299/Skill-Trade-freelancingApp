@@ -5,7 +5,7 @@ const HealthCheck = () => {
 
   React.useEffect(() => {
     // Ensure the correct backend URL is used (e.g., http://localhost:8105/api/health)
-    fetch("http://localhost:8105/api/health")
+    fetch("http://localhost:8105/health")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");
