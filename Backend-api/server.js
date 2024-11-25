@@ -142,7 +142,7 @@ app.listen(8105, () => {
   connect();
   console.log("Backend server is running!");
 }); ////*/
-import express from "express";
+/***import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
@@ -174,7 +174,7 @@ const connect = async () => {
 
 // Middleware
 //app.use(cors({ origin: "http://localhost:5174", credentials: true }));
-const allowedOrigins = ["http://localhost:5174", "http://localhost:5173","http://localhost:5175"];
+const allowedOrigins = ["http://localhost:5174","https://HinaFarrukh1299.org"];
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or Postman)
@@ -228,9 +228,14 @@ app.listen(8105, () => {
   connect();
   console.log("Backend server is running on port 8105!");
 });
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK', uptime: process.uptime(), timestamp: new Date() });
-});
+fetch("http://localhost:8105/api/health")
+  .then((res) => res.json())
+  .then((data) => setApiStatus(data.status))
+  .catch((error) => {
+    console.error("Error fetching API:", error);
+    setApiStatus("Error");
+  });
+
 
 
 /*import express from "express";
@@ -386,3 +391,100 @@ app.listen(8105, () => {
   console.log("Backend server is running on port 8105!");
 });
 */
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import userRoute from "./routes/user.route.js";
+import gigRoute from "./routes/gig.route.js";
+import orderRoute from "./routes/order.route.js";
+import conversationRoute from "./routes/conversation.route.js";
+import messageRoute from "./routes/message.route.js";
+import reviewRoute from "./routes/review.route.js";
+import authRoute from "./routes/auth.route.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import cloudinary from "cloudinary"; // Import Cloudinary SDK
+import jwt from 'jsonwebtoken';
+
+const app = express();
+dotenv.config();
+mongoose.set("strictQuery", true);
+
+// Check for required environment variables
+if (!process.env.MONGO || !process.env.JWT_KEY) {
+  console.error("Missing required environment variables!");
+  process.exit(1);
+}
+
+// MongoDB connection
+const connect = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO);
+    console.log("Connected to mongoDB!");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    process.exit(1); // Exit the process if unable to connect to DB
+  }
+};
+
+// CORS configuration
+const allowedOrigins = ["http://localhost:5174", "https://HinaFarrukh1299.org"];
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
+
+// Cloudinary configuration
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Generate Signature Route
+app.post("/api/upload-signature", (req, res) => {
+  const timestamp = Math.round(new Date().getTime() / 1000);
+  const signature = cloudinary.v2.utils.api_sign_request(
+    { timestamp, upload_preset: "your_upload_preset" },
+    process.env.CLOUDINARY_API_SECRET
+  );
+  res.json({ timestamp, signature });
+});
+
+// API Routes
+app.use("/api/auths", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/gigs", gigRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/conversations", conversationRoute);
+app.use("/api/messages", messageRoute);
+app.use("/api/reviews", reviewRoute);
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went wrong!";
+  return res.status(errorStatus).send(errorMessage);
+});
+
+// Start the server
+app.listen(8105, () => {
+  connect();
+  console.log("Backend server is running on port 8105!");
+});
+// Health check route
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'OK' });
+});
