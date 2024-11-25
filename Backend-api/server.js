@@ -485,6 +485,6 @@ app.listen(8105, () => {
   console.log("Backend server is running on port 8105!");
 });
 // Health check route
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK' });
 });
