@@ -176,7 +176,7 @@ const navigate = useNavigate();
       navigate("/")
       // Redirect or do something after successful login
     } catch (err) {
-      setError(err.resonse.data);
+      setError(err.response.data);
       
     }
   };
